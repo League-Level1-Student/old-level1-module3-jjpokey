@@ -1,32 +1,67 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class WhackAMole implements ActionListener {
-	static int mole = 0;
-JFrame frame = new JFrame();
-JPanel panel = new JPanel();
-static JButton b1 = new JButton();
-static JButton b2 = new JButton();
-static JButton b3 = new JButton();
-static JButton b4 = new JButton();
-static JButton b5 = new JButton();
-static JButton b6 = new JButton();
-static JButton b7 = new JButton();
-static JButton b8 = new JButton();
-static JButton b9 = new JButton();
-static JButton b10 = new JButton();
-static JButton b11 = new JButton();
-static JButton b12 = new JButton();
+	 int mole = 0;
+ JFrame frame;
+ JPanel panel;
+ JButton b1;
+ JButton b2;
+ JButton b3;
+ JButton b4;
+ JButton b5;
+ JButton b6;
+ JButton b7;
+ JButton b8;
+ JButton b9;
+ JButton b10;
+ JButton b11;
+ JButton b12;
+int c = 0;
+int w = 0;
+static Date d;
 	public static void main(String[] args) {
-		 new WhackAMole().Setup();
-		 DrawButtons();
+		WhackAMole wack = new WhackAMole();
+		 wack.DrawButtons();
+		 d = new Date();
 	}
-	public void Setup() {
+	
+	public void DrawButtons() {
+		frame = new JFrame();
+		panel = new JPanel();
+		b1 = new JButton();
+		b2 = new JButton();
+		b3 = new JButton();
+		b4 = new JButton();
+		b5 = new JButton();
+		b6 = new JButton();
+		b7 = new JButton();
+		b8 = new JButton();
+		b9 = new JButton();
+		b10 = new JButton();
+		b11 = new JButton();
+		b12 = new JButton();
+		
+		b1.addActionListener(this);
+		b2.addActionListener(this);
+		b3.addActionListener(this); 
+		b4.addActionListener(this); 
+		b5.addActionListener(this); 
+		b6.addActionListener(this); 
+		b7.addActionListener(this); 
+		b8.addActionListener(this); 
+		b9.addActionListener(this); 
+		b10.addActionListener(this); 
+		b11.addActionListener(this); 
+		b12.addActionListener(this); 
+		
 		frame.add(panel);
 		panel.add(b1);
 		panel.add(b2);
@@ -43,20 +78,6 @@ static JButton b12 = new JButton();
 		frame.setTitle("Whack-a-Mole");
 		frame.setVisible(true);
 		frame.setSize(300, 200);
-		b1.addActionListener(this);
-		b2.addActionListener(this);
-		b3.addActionListener(this);
-		b4.addActionListener(this);
-		b5.addActionListener(this);
-		b6.addActionListener(this);
-		b7.addActionListener(this);
-		b8.addActionListener(this);
-		b9.addActionListener(this);
-		b10.addActionListener(this);
-		b11.addActionListener(this);
-		b12.addActionListener(this);
-	}
-	public static void DrawButtons() {
 		Random rand = new Random();
 		int r = rand.nextInt(11);
 		if(r == 0) {
@@ -117,11 +138,31 @@ static JButton b12 = new JButton();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == b1 && mole == 1) {
-			
+		JButton buttonPressed = (JButton) e.getSource();
+		System.out.println("1");
+		
+		if(buttonPressed.getText().equals("mole!")) {
+			System.out.println("2");
+				frame.dispose();
+				DrawButtons();
+				
+				c += 1;
+			}
+			else {
+				speak("wrong");
+				w += 1;
+				frame.dispose();
+				DrawButtons();
+			}
+		if(c == 10) {
+			endGame(d,c);
 		}
-		else {
-			speak("wrong");
-		}
-	}
+			}
+		
+private void endGame(Date timeAtStart, int molesWhacked) {
+    Date timeAtEnd = new Date();
+    JOptionPane.showMessageDialog(null, "Your whack rate is "
+         + ((timeAtEnd.getTime() - timeAtStart.getTime()) / 1000.00 / molesWhacked)
+         + " moles per second.");
+}
 }
